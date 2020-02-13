@@ -11,12 +11,12 @@
 // Author(s):  James Stanard
 //             Alex Nankervis
 //
-
-#include "ModelViewerRS.hlsli"
+// Modified by Alexander Radkov
+//
 
 cbuffer VSConstants : register(b0)
 {
-    float4x4 modelToProjection;
+    MATRIX_STORAGE_FLAG float4x4 modelToProjection;
 };
 
 struct VSInput
@@ -38,7 +38,7 @@ struct VSOutput
 VSOutput main(VSInput vsInput)
 {
     VSOutput vsOutput;
-    vsOutput.pos = mul(modelToProjection, float4(vsInput.position, 1.0));
+    vsOutput.pos = MATRIX_MULTIPLICATION(modelToProjection, float4(vsInput.position, 1.0));
     vsOutput.uv = vsInput.texcoord0;
     return vsOutput;
 }

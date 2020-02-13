@@ -11,6 +11,8 @@
 // Author(s):  Alex Nankervis
 //             James Stanard
 //
+// Modified by Alexander Radkov
+//
 
 #include "GameCore.h"
 #include "GraphicsCore.h"
@@ -37,10 +39,45 @@
 // To enable wave intrinsics, uncomment this macro and #define DXIL in Core/GraphcisCore.cpp.
 // Run CompileSM6Test.bat to compile the relevant shaders with DXC.
 //#define _WAVE_OP
+// Alex: I haven't modified the SM6 scripts, so this won't work with the example
 
-#include "CompiledShaders/DepthViewerVS.h"
+#define MATRIX_MATH_RRR    // Valid case
+//#define MATRIX_MATH_RCC    // Valid case
+//#define MATRIX_MATH_CRC    // Valid case
+//#define MATRIX_MATH_CCR    // Valid case
+
+//#define MATRIX_MATH_CRR    // Invalid math - it's not defined
+//#define MATRIX_MATH_RCR    // Invalid math - it's not defined
+//#define MATRIX_MATH_RRC    // Invalid math - it's not defined
+//#define MATRIX_MATH_CCC    // Invalid math - it's not defined
+
+#if defined(MATRIX_MATH_CCC) || defined(MATRIX_MATH_RCC)
+#define g_pDepthViewerVS   g_pDepthViewerVS_CC
+#define g_pModelViewerVS   g_pModelViewerVS_CC
+
+#elif defined(MATRIX_MATH_CCR) || defined(MATRIX_MATH_RCR)
+#define g_pDepthViewerVS   g_pDepthViewerVS_CR
+#define g_pModelViewerVS   g_pModelViewerVS_CR
+
+#elif defined(MATRIX_MATH_CRC) || defined(MATRIX_MATH_RRC)
+#define g_pDepthViewerVS   g_pDepthViewerVS_RC
+#define g_pModelViewerVS   g_pModelViewerVS_RC
+
+#elif defined(MATRIX_MATH_CRR) || defined(MATRIX_MATH_RRR)
+#define g_pDepthViewerVS   g_pDepthViewerVS_RR
+#define g_pModelViewerVS   g_pModelViewerVS_RR
+
+#endif
+
+#include "CompiledShaders/DepthViewerVS_CC.h"
+#include "CompiledShaders/DepthViewerVS_CR.h"
+#include "CompiledShaders/DepthViewerVS_RC.h"
+#include "CompiledShaders/DepthViewerVS_RR.h"
 #include "CompiledShaders/DepthViewerPS.h"
-#include "CompiledShaders/ModelViewerVS.h"
+#include "CompiledShaders/ModelViewerVS_CC.h"
+#include "CompiledShaders/ModelViewerVS_CR.h"
+#include "CompiledShaders/ModelViewerVS_RC.h"
+#include "CompiledShaders/ModelViewerVS_RR.h"
 #include "CompiledShaders/ModelViewerPS.h"
 #ifdef _WAVE_OP
 #include "CompiledShaders/DepthViewerVS_SM6.h"
@@ -310,7 +347,22 @@ void ModelViewer::RenderObjects( GraphicsContext& gfxContext, const Matrix4& Vie
         Matrix4 modelToShadow;
         XMFLOAT3 viewerPos;
     } vsConstants;
-    vsConstants.modelToProjection = ViewProjMat;
+
+    const float* src = static_cast<const float *>(static_cast<const void *>(&ViewProjMat));
+    float* dst = static_cast<float *>(static_cast<void *>(&vsConstants.modelToProjection));
+
+    for (int r = 0; r < 4; r++)
+    {
+        for (int c = 0; c < 4; c++)
+        {
+#if defined(MATRIX_MATH_CCC) || defined(MATRIX_MATH_CCR) || defined(MATRIX_MATH_CRC) || defined(MATRIX_MATH_CRR)
+            memcpy(dst + c * 4 + r, src + r * 4 + c, sizeof(float));
+#else
+            memcpy(dst + r * 4 + c, src + r * 4 + c, sizeof(float));
+#endif
+        }
+    }
+    
     vsConstants.modelToShadow = m_SunShadow.GetShadowMatrix();
     XMStoreFloat3(&vsConstants.viewerPos, m_Camera.GetPosition());
 
@@ -433,7 +485,7 @@ void ModelViewer::RenderScene( void )
 
     pfnSetupGraphicsState();
 
-    RenderLightShadows(gfxContext);
+    // RenderLightShadows(gfxContext);
 
     {
         ScopedTimer _prof(L"Z PrePass", gfxContext);
@@ -455,6 +507,7 @@ void ModelViewer::RenderScene( void )
             RenderObjects(gfxContext, m_ViewProjMatrix, kOpaque );
         }
 
+        if (false)
         {
             ScopedTimer _prof2(L"Cutout", gfxContext);
             gfxContext.SetPipelineState(m_CutoutDepthPSO);
@@ -532,7 +585,7 @@ void ModelViewer::RenderScene( void )
 
     TemporalEffects::ResolveImage(gfxContext);
 
-    ParticleEffects::Render(gfxContext, m_Camera, g_SceneColorBuffer, g_SceneDepthBuffer,  g_LinearDepth[FrameIndex]);
+    // ParticleEffects::Render(gfxContext, m_Camera, g_SceneColorBuffer, g_SceneDepthBuffer,  g_LinearDepth[FrameIndex]);
 
     // Until I work out how to couple these two, it's "either-or".
     if (DepthOfField::Enable)

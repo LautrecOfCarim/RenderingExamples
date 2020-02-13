@@ -12,11 +12,10 @@
 //             Alex Nankervis
 //
 
-#include "ModelViewerRS.hlsli"
 
 cbuffer VSConstants : register(b0)
 {
-    float4x4 modelToProjection;
+    MATRIX_STORAGE_FLAG float4x4 modelToProjection;
     float4x4 modelToShadow;
     float3 ViewerPos;
 };
@@ -47,7 +46,8 @@ VSOutput main(VSInput vsInput)
 {
     VSOutput vsOutput;
 
-    vsOutput.position = mul(modelToProjection, float4(vsInput.position, 1.0));
+    vsOutput.position = MATRIX_MULTIPLICATION(modelToProjection, float4(vsInput.position, 1.0));
+
     vsOutput.worldPos = vsInput.position;
     vsOutput.texCoord = vsInput.texcoord0;
     vsOutput.viewDir = vsInput.position - ViewerPos;

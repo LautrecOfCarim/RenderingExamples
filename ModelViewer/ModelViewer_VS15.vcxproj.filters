@@ -212,6 +212,24 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="packages.config" />
+    <None Include="Shaders\ModelViewerVS_Body.hlsli">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\DepthViewerVS_Body.hlsli">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\MatrixMath_CC.hlsli">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\MatrixMath_CR.hlsli">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\MatrixMath_RC.hlsli">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\MatrixMath_RR.hlsli">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModelViewer.cpp">
@@ -222,13 +240,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Shaders\ModelViewerVS.hlsl">
-      <Filter>Shaders</Filter>
-    </FxCompile>
     <FxCompile Include="Shaders\ModelViewerPS.hlsl">
-      <Filter>Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="Shaders\DepthViewerVS.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
     <FxCompile Include="Shaders\DepthViewerPS.hlsl">
@@ -247,6 +259,30 @@
       <Filter>Shaders</Filter>
     </FxCompile>
     <FxCompile Include="Shaders\WaveTileCountPS.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\ModelViewerVS_CC.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\ModelViewerVS_CR.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\ModelViewerVS_RC.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\ModelViewerVS_RR.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\DepthViewerVS_CC.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\DepthViewerVS_CR.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\DepthViewerVS_RC.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\DepthViewerVS_RR.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
   </ItemGroup>

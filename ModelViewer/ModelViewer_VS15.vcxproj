@@ -151,12 +151,27 @@
     <None Include="Shaders\FillLightGridCS.hlsli" />
     <None Include="Shaders\LightGrid.hlsli" />
     <None Include="Shaders\ModelViewerRS.hlsli" />
+    <None Include="Shaders\ModelViewerVS_Body.hlsli" />
+    <None Include="Shaders\DepthViewerVS_Body.hlsli" />
+    <None Include="Shaders\MatrixMath_CC.hlsli" />
+    <None Include="Shaders\MatrixMath_CR.hlsli" />
+    <None Include="Shaders\MatrixMath_RC.hlsli" />
+    <None Include="Shaders\MatrixMath_RR.hlsli" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shaders\DepthViewerPS.hlsl">
       <ShaderType>Pixel</ShaderType>
     </FxCompile>
-    <FxCompile Include="Shaders\DepthViewerVS.hlsl">
+    <FxCompile Include="Shaders\DepthViewerVS_CC.hlsl">
+      <ShaderType>Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Shaders\DepthViewerVS_CR.hlsl">
+      <ShaderType>Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Shaders\DepthViewerVS_RC.hlsl">
+      <ShaderType>Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Shaders\DepthViewerVS_RR.hlsl">
       <ShaderType>Vertex</ShaderType>
     </FxCompile>
     <FxCompile Include="Shaders\FillLightGridCS_16.hlsl" />
@@ -166,7 +181,16 @@
     <FxCompile Include="Shaders\ModelViewerPS.hlsl">
       <ShaderType>Pixel</ShaderType>
     </FxCompile>
-    <FxCompile Include="Shaders\ModelViewerVS.hlsl">
+    <FxCompile Include="Shaders\ModelViewerVS_CC.hlsl">
+      <ShaderType>Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Shaders\ModelViewerVS_CR.hlsl">
+      <ShaderType>Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Shaders\ModelViewerVS_RC.hlsl">
+      <ShaderType>Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Shaders\ModelViewerVS_RR.hlsl">
       <ShaderType>Vertex</ShaderType>
     </FxCompile>
     <FxCompile Include="Shaders\WaveTileCountPS.hlsl">
