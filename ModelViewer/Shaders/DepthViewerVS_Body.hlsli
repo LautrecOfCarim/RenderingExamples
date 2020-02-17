@@ -38,7 +38,7 @@ struct VSOutput
 VSOutput main(VSInput vsInput)
 {
     VSOutput vsOutput;
-    vsOutput.pos = MATRIX_MULTIPLICATION(modelToProjection, float4(vsInput.position, 1.0));
+    vsOutput.pos = multiplyMa(modelToProjection, float4(vsInput.position, 1.0));
     vsOutput.uv = vsInput.texcoord0;
     return vsOutput;
 }

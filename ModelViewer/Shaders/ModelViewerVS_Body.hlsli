@@ -46,7 +46,7 @@ VSOutput main(VSInput vsInput)
 {
     VSOutput vsOutput;
 
-    vsOutput.position = MATRIX_MULTIPLICATION(modelToProjection, float4(vsInput.position, 1.0));
+    vsOutput.position = multiplyMa(modelToProjection, float4(vsInput.position, 1.0));
 
     vsOutput.worldPos = vsInput.position;
     vsOutput.texCoord = vsInput.texcoord0;
